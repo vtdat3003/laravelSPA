@@ -18,10 +18,12 @@ use Illuminate\Support\Facades\Route;
 // })->middleware('auth');
 Auth::routes();
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
-Route::get('/users', function () {
-    return view('users');
+Route::group(['middleware' => ['auth']], function () { 
+    Route::get('/', function () {
+        return view('welcome');
+    });
+    
+    Route::get('/users', function () {
+        return view('users');
+    });
 });
