@@ -17,11 +17,11 @@
                         </a>
                         </li>
                         <li class="nav-item">
-                            <!-- <a class="nav-link" href="/login"
+                            <a class="nav-link" href="/login"
                                 @click="submit">
                                 Logout
-                            </a> -->
-                            <a class="nav-link" href="#" @click.prevent="$auth.logout()">Logout</a>
+                            </a>
+                            <!-- <a class="nav-link me-auto" href="#" @click.prevent="$auth.logout()">Logout</a> -->
                         </li>
                     </ul>
                 </div>
@@ -40,8 +40,10 @@ export default{
     methods:{
         submit: function()
         {
+            console.log('here!');
+            document.cookie = 'authorize=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
             axios.post("logout").then(response => { 
-                console.log(response);
+                
             })
             .catch(error => {
                 console.log(error);

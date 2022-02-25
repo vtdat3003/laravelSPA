@@ -6336,7 +6336,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -6351,6 +6350,8 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     login: function login() {
+      var _this = this;
+
       // get the redirect object
       //var redirect = this.$auth.redirect()
       // var app = this
@@ -6384,9 +6385,10 @@ __webpack_require__.r(__webpack_exports__);
           d.setTime(d.getTime() + 48 * 60 * 60 * 1000);
           var expires = "expires=" + d.toUTCString();
           document.cookie = "authorize=" + response.headers.authorization + ";" + expires;
+          window.location.href = "/";
         }
       })["catch"](function (error) {
-        console.log('error');
+        _this.error = error;
       });
     }
   }
@@ -6780,9 +6782,9 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     submit: function submit() {
-      axios.post("logout").then(function (response) {
-        console.log(response);
-      })["catch"](function (error) {
+      console.log('here!');
+      document.cookie = 'authorize=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+      axios.post("logout").then(function (response) {})["catch"](function (error) {
         console.log(error);
       });
     }
@@ -31955,15 +31957,11 @@ var render = function () {
           _c("div", { staticClass: "card-header" }, [_vm._v("Login")]),
           _vm._v(" "),
           _c("div", { staticClass: "card-body" }, [
-            _vm.has_error && !_vm.success
+            _vm.error !== ""
               ? _c("div", { staticClass: "alert alert-danger" }, [
-                  _vm.error == "login_error"
-                    ? _c("p", [_vm._v("Validation Errors.")])
-                    : _c("p", [
-                        _vm._v(
-                          "Error, unable to connect with these credentials."
-                        ),
-                      ]),
+                  _vm._v(
+                    "\n            Wrong username or password\n          "
+                  ),
                 ])
               : _vm._e(),
             _vm._v(" "),
@@ -32678,15 +32676,14 @@ var render = function () {
                     "a",
                     {
                       staticClass: "nav-link",
-                      attrs: { href: "#" },
-                      on: {
-                        click: function ($event) {
-                          $event.preventDefault()
-                          return _vm.$auth.logout()
-                        },
-                      },
+                      attrs: { href: "/login" },
+                      on: { click: _vm.submit },
                     },
-                    [_vm._v("Logout")]
+                    [
+                      _vm._v(
+                        "\n                            Logout\n                        "
+                      ),
+                    ]
                   ),
                 ]),
               ]),

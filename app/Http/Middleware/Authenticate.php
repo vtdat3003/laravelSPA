@@ -34,6 +34,10 @@ class Authenticate extends Middleware
     // Override authentication method
     protected function authenticate($request, array $guards)
     {
+        if(!array_key_exists("authorize", $_COOKIE))
+        {
+            return 'authentication_failed';
+        }
         $request->server->set('HTTP_AUTHORIZATION', $_COOKIE["authorize"]);
         if (empty($guards)) {
             $guards = [null];

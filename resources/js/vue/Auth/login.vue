@@ -5,9 +5,8 @@
         <div class="card card-default">
           <div class="card-header">Login</div>
           <div class="card-body">
-            <div class="alert alert-danger" v-if="has_error && !success">
-              <p v-if="error == 'login_error'">Validation Errors.</p>
-              <p v-else>Error, unable to connect with these credentials.</p>
+            <div class="alert alert-danger" v-if="error !== '' ">
+              Wrong username or password
             </div>
             <form autocomplete="off" @submit.prevent="login" method="post">
               <div class="form-group">
@@ -78,10 +77,11 @@
                 d.setTime(d.getTime() + (48*60*60*1000));
                 let expires = "expires="+ d.toUTCString();
                 document.cookie = "authorize=" + response.headers.authorization + ";" + expires;
+                window.location.href = "/";
             }
         })
         .catch(error => {
-            console.log('error');
+            this.error = error;
         })
       }
     }
