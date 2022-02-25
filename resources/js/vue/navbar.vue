@@ -17,10 +17,11 @@
                         </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/login"
+                            <!-- <a class="nav-link" href="/login"
                                 @click="submit">
                                 Logout
-                            </a>
+                            </a> -->
+                            <a class="nav-link" href="#" @click.prevent="$auth.logout()">Logout</a>
                         </li>
                     </ul>
                 </div>
