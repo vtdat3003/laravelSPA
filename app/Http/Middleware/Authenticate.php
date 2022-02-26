@@ -7,6 +7,8 @@ use Closure;
 use Illuminate\Support\Arr;
 use Auth;
 use App\Models\Oauth_access_token;
+use App\Models\Todo;
+use DB;
 use App\Models\User;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
@@ -21,12 +23,21 @@ class Authenticate extends Middleware
     // Override handle method
     public function handle($request, Closure $next, ...$guards)
     {
+        if(!array_key_exists("authorize", $_COOKIE))
+        {
+            $oats = Oauth_access_token::where('user_id', $request->getContent('user'))->get();
+            foreach($oats as $oat)
+            {
+                $oat->delete();
+            }
+                return redirect('/login');
+            }
         $request->server->set('HTTP_AUTHORIZATION', $request->cookie('authorize'));
         if ($this->authenticate($request, $guards) === 'authentication_failed') {
             return response()->json(['error'=>'Unauthorized'],400);
         }
 
-        return $next($request)->header('Access-Control-Allow-Origin', 'http://127.0.0.1:8000/')
+        return $next($request)->header('Access-Control-Allow-Origin', 'http://127.0.0.1:8000')
         ->header('Access-Control-Allow-Methods', '*')
         ->header('Access-Control-Allow-Credentials', 'true')
         ->header('Access-Control-Allow-Headers', 'X-CSRF-Token');

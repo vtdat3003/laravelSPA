@@ -17,7 +17,7 @@
                         </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/login"
+                            <a class="nav-link" 
                                 @click="submit">
                                 Logout
                             </a>
@@ -40,10 +40,11 @@ export default{
     methods:{
         submit: function()
         {
-            console.log('here!');
             document.cookie = 'authorize=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-            axios.post("logout").then(response => { 
-                
+            axios.post('api/auth/logout', {
+                user: this.$user
+            }).then(response => { 
+                window.location.href = "/login";
             })
             .catch(error => {
                 console.log(error);

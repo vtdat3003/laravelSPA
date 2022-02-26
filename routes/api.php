@@ -38,6 +38,8 @@ Route::prefix('auth')->group(function () {
         Route::get('user', [AuthController::class, 'user']);
         // Logout user from application
         Route::post('logout', [AuthController::class, 'logout']);
+
+        Route::post('resetJWT', [AuthController::class, 'resetJWT']);
     });
 });
 

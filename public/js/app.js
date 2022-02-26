@@ -6224,8 +6224,7 @@ __webpack_require__.r(__webpack_exports__);
 
       axios.get('api/todos').then(function (response) {
         _this.todos = response.data;
-      })["catch"](function (error) {
-        console.log('error');
+      })["catch"](function (error) {//console.log('error');
       });
     }
   },
@@ -6782,9 +6781,12 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     submit: function submit() {
-      console.log('here!');
       document.cookie = 'authorize=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-      axios.post("logout").then(function (response) {})["catch"](function (error) {
+      axios.post('api/auth/logout', {
+        user: this.$user
+      }).then(function (response) {
+        window.location.href = "/login";
+      })["catch"](function (error) {
         console.log(error);
       });
     }
@@ -32674,11 +32676,7 @@ var render = function () {
                 _c("li", { staticClass: "nav-item" }, [
                   _c(
                     "a",
-                    {
-                      staticClass: "nav-link",
-                      attrs: { href: "/login" },
-                      on: { click: _vm.submit },
-                    },
+                    { staticClass: "nav-link", on: { click: _vm.submit } },
                     [
                       _vm._v(
                         "\n                            Logout\n                        "

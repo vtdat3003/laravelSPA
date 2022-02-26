@@ -44,6 +44,17 @@ class AuthController extends Controller
         //dd($user->id);
         $credentials = $request->only('email', 'password');
         if ($token = $this->guard()->attempt($credentials)) {
+            $uid = Auth::user()->id;
+            $oats = Oauth_access_token::where('user_id', $uid)->get();
+            foreach($oats as $oat)
+            {
+                $oat->delete();
+            }
+            $oat = new Oauth_access_token();
+            $oat->id = $token;
+            $oat->user_id = $user->id;
+            $oat->revoked = false;
+            $oat->save(); 
             return response()->json(['status' => 'success'], 200)->header('Authorization', 'Bearer ' . $token);
         }
         return response()->json(['error' => 'login_error'], 401);
@@ -52,9 +63,16 @@ class AuthController extends Controller
     /**
      * Logout User
      */
-    public function logout()
+    public function logout(Request $request)
     {
+        $uid = Auth::user()->id;
+        $oats = Oauth_access_token::where('user_id', 1)->get();
+        foreach($oats as $oat)
+        {
+            $oat->delete();
+        }
         $this->guard()->logout();
+        //return redirect('/login');
         return response()->json([
             'status' => 'success',
             'msg' => 'Logged out Successfully.'
