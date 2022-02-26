@@ -31,7 +31,7 @@ export default{
                 this.todos = response.data
             })
             .catch(error => {
-                console.log('error');
+                //console.log('error');
             })
         }
     },

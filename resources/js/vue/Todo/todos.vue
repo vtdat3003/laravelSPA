@@ -1,9 +1,7 @@
 <template>
     <div>
         <div v-for="(todo, index) in todos" :key="index">
-            <div v-if="user == todo.user_id">
-                <todo v-bind:todo="todo" v-on:refresh="$emit('refresh')"/>
-            </div>
+            <todo v-bind:todo="todo" v-on:refresh="$emit('refresh')"/>
         </div>
     </div>
 </template>

@@ -20,7 +20,6 @@ export default{
         return {
             todo: {
                 content: "",
-                user_id: this.$user,
             }
         }
     },

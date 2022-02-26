@@ -11,7 +11,7 @@
                 </tr>
                     <tr v-for="(user, index) in users" :key="index">
                         <td>{{user.id}}</td>
-                        <td>{{user.name}}</td>
+                        <td>{{user.name}}<span class="badge rounded-pill bg-primary text-white" v-if="user.role == 'admin'">admin</span></td>
                         <td>{{user.email}}</td>
                         <td>{{user.created_at}}</td>
                     </tr>

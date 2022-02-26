@@ -24,7 +24,7 @@
     </head>
     <body class="antialiased">
         <div id="app">
-            <example-component></example-component>
+            <login-component></login-component>
         </div>
     </body>
     {{-- <script src="{{mix('js/app.js')}}"></script> --}}

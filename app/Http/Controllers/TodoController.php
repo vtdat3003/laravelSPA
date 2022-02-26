@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\User;
+use App\Models\Oauth_access_token;
 use App\Models\Todo;
+use Auth;
 
 class TodoController extends Controller
 {
@@ -15,7 +18,14 @@ class TodoController extends Controller
     
     public function index()
     {
-        $todos = Todo::orderBy('id', 'ASC')->get();
+        if(Auth::user()->role == 'admin')
+        {
+            $todos = Todo::orderBy('id', 'ASC')->get();
+        }
+        else
+        {
+            $todos = Todo::where('user_id', Auth::user()->id)->orderBy('id', 'ASC')->get();
+        }
         return $todos;
     }
 
@@ -37,10 +47,11 @@ class TodoController extends Controller
      */
     public function store(Request $request)
     {
+        $oat = Oauth_access_token::where('id', substr($_COOKIE['authorize'], 7))->get()[0];
+        $id = User::where('id', $oat->user_id)->get()[0]->id;
         $newTodo = new Todo;
-        //dd($request);
         $newTodo->content = $request->todo['content'];
-        $newTodo->user_id = $request->todo['user_id'];
+        $newTodo->user_id = $id;
         $newTodo->save();
 
         return $newTodo;
@@ -77,20 +88,25 @@ class TodoController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $oat = Oauth_access_token::where('id', substr($_COOKIE['authorize'], 7))->get()[0];
+        $user = User::where('id', $oat->user_id)->get()[0];
         $todo = Todo::find($id);
-        if($todo)
+        if($user->id == $todo->user_id || $user->role == 'admin')
         {
-            $todo->content = $request->todo["content"];
-            if($request->changeStatus)
-            {
-                $todo->status = ($todo->status == "done") ? "undone" : "done";
-            }
-            else
+            if($todo)
             {
                 $todo->content = $request->todo["content"];
+                if($request->changeStatus)
+                {
+                    $todo->status = ($todo->status == "done") ? "undone" : "done";
+                }
+                else
+                {
+                    $todo->content = $request->todo["content"];
+                }
+                $todo->save();
+                return $todo;
             }
-            $todo->save();
-            return $todo;
         }
 
         return 'item not found';
@@ -104,11 +120,16 @@ class TodoController extends Controller
      */
     public function destroy($id)
     {
+        $oat = Oauth_access_token::where('id', substr($_COOKIE['authorize'], 7))->get()[0];
+        $user = User::where('id', $oat->user_id)->get()[0];
         $todo = Todo::find($id);
-        if($todo)
+        if($user->id == $todo->user_id || $user->role == 'admin')
         {
-            $todo->delete();
-            return 'item deleted';
+            if($todo)
+            {
+                $todo->delete();
+                return 'item deleted';
+            }
         }
         return 'item not found';
     }

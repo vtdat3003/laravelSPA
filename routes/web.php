@@ -12,18 +12,28 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-// Route::get('/', function () {
-//     return view('welcome');
-// })->middleware('auth');
-Auth::routes();
+Route::get('home', function(){
+    return view('home');
+})->name('home');
 
 Route::group(['middleware' => ['auth']], function () { 
     Route::get('/', function () {
         return view('welcome');
     });
-    
+});
+
+Route::group(['middleware' => ['auth', 'admin']], function () {   
     Route::get('/users', function () {
         return view('users');
     });
 });
+
+Route::group(['middleware' => ['guest']], function () { 
+    Route::get('/login', function () {
+        return view('login');
+    });
+});
+
+// Route::get('/{any?}', function (){
+//     return view('welcome');
+// })->where('any', '^(?!api\/)[\/\w\.-]*');

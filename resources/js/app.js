@@ -6,6 +6,17 @@
 
 require('./bootstrap');
 
+import 'es6-promise/auto'
+import axios from 'axios'
+import Vue from 'vue'
+import VueAuth from '@websanova/vue-auth'
+//import auth from '@websanova/vue-auth/dist/v2/vue-auth.esm.js';
+import VueAxios from 'vue-axios'
+import VueRouter from 'vue-router'
+import ExampleComonent from './components/ExampleComponent.vue'
+import authentication from '../authentication'
+import router from '../router.js'
+
 window.Vue = require('vue').default;
 
 /**
@@ -20,9 +31,20 @@ window.Vue = require('vue').default;
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
+Vue.component('login-component', require('./vue/Auth/login.vue').default);
 Vue.component('users-component', require('./components/UsersComponent.vue').default);
 
 Vue.prototype.$user = document.querySelector("meta[name='user']").getAttribute('content');
+
+Vue.router = router
+Vue.use(VueRouter)
+
+Vue.use(VueAxios, axios)
+axios.defaults.baseURL = `${process.env.MIX_APP_URL}`
+
+
+
+Vue.use(VueAuth, authentication)
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
