@@ -9,7 +9,7 @@
 
                 <div class="collapse navbar-collapse" id="navbarColor01">
                     <ul class="navbar-nav me-auto">
-                        <li class="nav-item">
+                        <li class="nav-item" v-if="role == 'admin'">
                         <a class="nav-link active" href="/users">Users</a>
                         </li>
                         <li class="nav-item">
@@ -17,11 +17,9 @@
                         </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" 
-                                @click="submit">
-                                Logout
+                            <a class="nav-link active" 
+                                @click="submit">Logout
                             </a>
-                            <!-- <a class="nav-link me-auto" href="#" @click.prevent="$auth.logout()">Logout</a> -->
                         </li>
                     </ul>
                 </div>
@@ -35,6 +33,7 @@ export default{
     data(){
         return{
             user: this.$user,
+            role: ''
         }
     },
     methods:{
@@ -49,8 +48,22 @@ export default{
             .catch(error => {
                 console.log(error);
             });
+        },
+        getRole: function()
+        {
+            axios.post('api/getRole', {
+                id: this.$user
+            }).then(response => {
+                this.role = response.data
+            })
+            .catch(error => {
+                console.log(error);
+            })
         }
-    }
+    },
+    created(){
+        this.getRole()
+    },
 }
 </script>
 

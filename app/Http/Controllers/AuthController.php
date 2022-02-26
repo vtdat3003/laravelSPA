@@ -65,14 +65,7 @@ class AuthController extends Controller
      */
     public function logout(Request $request)
     {
-        $uid = Auth::user()->id;
-        $oats = Oauth_access_token::where('user_id', 1)->get();
-        foreach($oats as $oat)
-        {
-            $oat->delete();
-        }
         $this->guard()->logout();
-        //return redirect('/login');
         return response()->json([
             'status' => 'success',
             'msg' => 'Logged out Successfully.'

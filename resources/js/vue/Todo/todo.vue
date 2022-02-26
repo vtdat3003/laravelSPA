@@ -13,7 +13,11 @@
         <div class="card bg-light mt-3 col-md-4">
             <div class="card-body text-center">
                 <div class="btn-group" role="group" aria-label="Basic example">
-                    <button type="button" class="btn btn-primary" @click="taskDone">Mark as done</button>
+                    <button type="button" class="btn btn-primary" @click="taskDone">
+                        Mark as 
+                        <span v-if="todo.status == 'undone'">done</span>
+                        <span v-if="todo.status == 'done'">undone</span>
+                        </button>
                     <button type="button" class="btn btn-primary" @click="editTodo">Update</button>
                     <button type="button" class="btn btn-danger" @click="deleteTodo">Delete</button>
                 </div>

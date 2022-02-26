@@ -6521,8 +6521,7 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       todo: {
-        content: "",
-        user_id: this.$user
+        content: ""
       }
     };
   },
@@ -6561,6 +6560,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _updateTodo_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./updateTodo.vue */ "./resources/js/vue/Todo/updateTodo.vue");
+//
+//
+//
+//
 //
 //
 //
@@ -6646,8 +6649,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _todo_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./todo.vue */ "./resources/js/vue/Todo/todo.vue");
-//
-//
 //
 //
 //
@@ -6771,12 +6772,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
-      user: this.$user
+      user: this.$user,
+      role: ''
     };
   },
   methods: {
@@ -6789,7 +6789,21 @@ __webpack_require__.r(__webpack_exports__);
       })["catch"](function (error) {
         console.log(error);
       });
+    },
+    getRole: function getRole() {
+      var _this = this;
+
+      axios.post('api/getRole', {
+        id: this.$user
+      }).then(function (response) {
+        _this.role = response.data;
+      })["catch"](function (error) {
+        console.log(error);
+      });
     }
+  },
+  created: function created() {
+    this.getRole();
   }
 });
 
@@ -31899,7 +31913,19 @@ var render = function () {
               return _c("tr", { key: index }, [
                 _c("td", [_vm._v(_vm._s(user.id))]),
                 _vm._v(" "),
-                _c("td", [_vm._v(_vm._s(user.name))]),
+                _c("td", [
+                  _vm._v(_vm._s(user.name)),
+                  user.role == "admin"
+                    ? _c(
+                        "span",
+                        {
+                          staticClass:
+                            "badge rounded-pill bg-primary text-white",
+                        },
+                        [_vm._v("admin")]
+                      )
+                    : _vm._e(),
+                ]),
                 _vm._v(" "),
                 _c("td", [_vm._v(_vm._s(user.email))]),
                 _vm._v(" "),
@@ -32434,7 +32460,16 @@ var render = function () {
                 attrs: { type: "button" },
                 on: { click: _vm.taskDone },
               },
-              [_vm._v("Mark as done")]
+              [
+                _vm._v("\n                    Mark as \n                    "),
+                _vm.todo.status == "undone"
+                  ? _c("span", [_vm._v("done")])
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.todo.status == "done"
+                  ? _c("span", [_vm._v("undone")])
+                  : _vm._e(),
+              ]
             ),
             _vm._v(" "),
             _c(
@@ -32488,24 +32523,21 @@ var render = function () {
   return _c(
     "div",
     _vm._l(_vm.todos, function (todo, index) {
-      return _c("div", { key: index }, [
-        _vm.user == todo.user_id
-          ? _c(
-              "div",
-              [
-                _c("todo", {
-                  attrs: { todo: todo },
-                  on: {
-                    refresh: function ($event) {
-                      return _vm.$emit("refresh")
-                    },
-                  },
-                }),
-              ],
-              1
-            )
-          : _vm._e(),
-      ])
+      return _c(
+        "div",
+        { key: index },
+        [
+          _c("todo", {
+            attrs: { todo: todo },
+            on: {
+              refresh: function ($event) {
+                return _vm.$emit("refresh")
+              },
+            },
+          }),
+        ],
+        1
+      )
     }),
     0
   )
@@ -32669,19 +32701,29 @@ var render = function () {
             },
             [
               _c("ul", { staticClass: "navbar-nav me-auto" }, [
-                _vm._m(1),
+                _vm.role == "admin"
+                  ? _c("li", { staticClass: "nav-item" }, [
+                      _c(
+                        "a",
+                        {
+                          staticClass: "nav-link active",
+                          attrs: { href: "/users" },
+                        },
+                        [_vm._v("Users")]
+                      ),
+                    ])
+                  : _vm._e(),
                 _vm._v(" "),
-                _vm._m(2),
+                _vm._m(1),
                 _vm._v(" "),
                 _c("li", { staticClass: "nav-item" }, [
                   _c(
                     "a",
-                    { staticClass: "nav-link", on: { click: _vm.submit } },
-                    [
-                      _vm._v(
-                        "\n                            Logout\n                        "
-                      ),
-                    ]
+                    {
+                      staticClass: "nav-link active",
+                      on: { click: _vm.submit },
+                    },
+                    [_vm._v("Logout\n                        ")]
                   ),
                 ]),
               ]),
@@ -32712,16 +32754,6 @@ var staticRenderFns = [
       },
       [_c("span", { staticClass: "navbar-toggler-icon" })]
     )
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("li", { staticClass: "nav-item" }, [
-      _c("a", { staticClass: "nav-link active", attrs: { href: "/users" } }, [
-        _vm._v("Users"),
-      ]),
-    ])
   },
   function () {
     var _vm = this

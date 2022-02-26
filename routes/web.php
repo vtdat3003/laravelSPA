@@ -16,17 +16,13 @@ Route::get('home', function(){
     return view('home');
 })->name('home');
 
-Route::get('/', function () {
-    return view('welcome');
-})->middleware('auth');
-
-//Auth::routes();
-
 Route::group(['middleware' => ['auth']], function () { 
-    // Route::get('/', function () {
-    //     return view('welcome');
-    // });
-    
+    Route::get('/', function () {
+        return view('welcome');
+    });
+});
+
+Route::group(['middleware' => ['auth', 'admin']], function () {   
     Route::get('/users', function () {
         return view('users');
     });

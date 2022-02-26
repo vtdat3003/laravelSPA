@@ -12,4 +12,10 @@ class UserController extends Controller
         $users = User::orderBy('id', 'ASC')->get();
         return $users;
     }
+
+    public function getRole(Request $request)
+    {
+        $user = User::find($request->id);
+        return $user->role;
+    }
 }

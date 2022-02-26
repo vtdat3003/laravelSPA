@@ -38,8 +38,6 @@ Route::prefix('auth')->group(function () {
         Route::get('user', [AuthController::class, 'user']);
         // Logout user from application
         Route::post('logout', [AuthController::class, 'logout']);
-
-        Route::post('resetJWT', [AuthController::class, 'resetJWT']);
     });
 });
 
@@ -51,6 +49,7 @@ Route::middleware('auth:api')->group(function () {
     Route::delete('todo/{id}', [TodoController::class, 'destroy']);
 
     Route::get('users', [UserController::class, 'index']);
+    Route::post('getRole', [UserController::class, 'getRole']);
 });
 //Route::get('todos', [TodoController::class, 'index']);
 //Route::get('users', [UserController::class, 'index']);
