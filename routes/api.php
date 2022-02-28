@@ -18,9 +18,9 @@ use App\Http\Controllers\AuthController;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
 
 Route::prefix('auth')->group(function () {
     // Below mention routes are public, user can access those without any restriction.
@@ -41,15 +41,21 @@ Route::prefix('auth')->group(function () {
     });
 });
 
-Route::middleware('auth:api')->group(function () {
-    Route::get('todos', [TodoController::class, 'index']);
-    Route::post('todo/store', [TodoController::class, 'store']);
-    Route::put('todo/{id}', [TodoController::class, 'update']);
-    Route::put('todo/done/{id}', [TodoController::class, 'done']);
-    Route::delete('todo/{id}', [TodoController::class, 'destroy']);
+Route::group(['middleware' => 'active'], function(){
+    Route::middleware('auth:api')->group(function () {
+        Route::get('todos', [TodoController::class, 'index']);
+        Route::post('todo/store', [TodoController::class, 'store']);
+        Route::put('todo/{id}', [TodoController::class, 'update']);
+        Route::put('todo/done/{id}', [TodoController::class, 'done']);
+        Route::delete('todo/{id}', [TodoController::class, 'destroy']);
+    });
+    //Route::get('todos', [TodoController::class, 'index']);
+    //Route::get('users', [UserController::class, 'index']);
 
-    Route::get('users', [UserController::class, 'index']);
-    Route::post('getRole', [UserController::class, 'getRole']);
+    Route::middleware(['auth:api', 'admin'])->group(function () {
+        Route::get('users', [UserController::class, 'index']);
+        Route::post('getRole', [UserController::class, 'getRole']);
+        Route::post('user/{id}', [UserController::class, 'update']);
+        Route::delete('user/{id}', [UserController::class, 'destroy']);
+    });
 });
-//Route::get('todos', [TodoController::class, 'index']);
-//Route::get('users', [UserController::class, 'index']);

@@ -19,10 +19,10 @@ class RedirectIfAuthenticated
      */
     public function handle(Request $request, Closure $next, ...$guards)
     {
-        // if(array_key_exists("authorize", $_COOKIE))
-        // {
-        //     return redirect(RouteServiceProvider::HOME);
-        // }
+        if(array_key_exists("authorize", $_COOKIE))
+        {
+            return redirect(RouteServiceProvider::HOME);
+        }
         $guards = empty($guards) ? [null] : $guards;
 
         foreach ($guards as $guard) {

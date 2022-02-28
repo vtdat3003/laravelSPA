@@ -30,8 +30,8 @@ class Authenticate extends Middleware
             {
                 $oat->delete();
             }
-                return redirect('/login');
-            }
+            return redirect('/login');
+        }
         $request->server->set('HTTP_AUTHORIZATION', $request->cookie('authorize'));
         if ($this->authenticate($request, $guards) === 'authentication_failed') {
             return response()->json(['error'=>'Unauthorized'],400);

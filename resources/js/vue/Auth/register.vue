@@ -53,24 +53,39 @@
     },
     methods: {
       register() {
-        var app = this
-        this.$auth.register({
-          data: {
-            name: app.name,
-            email: app.email,
-            password: app.password,
-            password_confirmation: app.password_confirmation
-          },
-          success: function () {
-            app.success = true
-            this.$router.push({name: 'login', params: {successRegistrationRedirect: true}})
-          },
-          error: function (res) {
-            // console.log(res.response.data.errors)
-            app.has_error = true
-            app.error = res.response.data.error
-            app.errors = res.response.data.errors || {}
-          }
+        // var app = this
+        // this.$auth.register({
+        //   data: {
+        //     name: app.name,
+        //     email: app.email,
+        //     password: app.password,
+        //     password_confirmation: app.password_confirmation
+        //   },
+        //   success: function () {
+        //     app.success = true
+        //     this.$router.push({name: 'login', params: {successRegistrationRedirect: true}})
+        //   },
+        //   error: function (res) {
+        //     // console.log(res.response.data.errors)
+        //     app.has_error = true
+        //     app.error = res.response.data.error
+        //     app.errors = res.response.data.errors || {}
+        //   }
+        // })
+        axios.post('/api/auth/register', {
+            name: this.name,
+            email: this.email,
+            password: this.password,
+            password_confirmation: this.password_confirmation
+        })
+        .then(response => {
+            if(response.status == 200)
+            {
+                window.location.href = "/login";
+            }
+        })
+        .catch(error => {
+            this.error = error;
         })
       }
     }

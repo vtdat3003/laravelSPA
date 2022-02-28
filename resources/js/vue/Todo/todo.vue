@@ -12,7 +12,7 @@
         </div>
         <div class="card bg-light mt-3 col-md-4">
             <div class="card-body text-center">
-                <div class="btn-group" role="group" aria-label="Basic example">
+                <div class="btn-group" role="group">
                     <button type="button" class="btn btn-primary" @click="taskDone">
                         Mark as 
                         <span v-if="todo.status == 'undone'">done</span>

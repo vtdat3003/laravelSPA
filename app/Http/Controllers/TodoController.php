@@ -18,13 +18,15 @@ class TodoController extends Controller
     
     public function index()
     {
-        if(Auth::user()->role == 'admin')
+        $oat = Oauth_access_token::where('id', substr($_COOKIE['authorize'], 7))->get()[0];
+        $user = User::where('id', $oat->user_id)->get()[0];
+        if($user->role == 'admin')
         {
             $todos = Todo::orderBy('id', 'ASC')->get();
         }
         else
         {
-            $todos = Todo::where('user_id', Auth::user()->id)->orderBy('id', 'ASC')->get();
+            $todos = Todo::where('user_id', $user->id)->orderBy('id', 'ASC')->get();
         }
         return $todos;
     }

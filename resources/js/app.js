@@ -31,8 +31,12 @@ window.Vue = require('vue').default;
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
-Vue.component('login-component', require('./vue/Auth/login.vue').default);
+
 Vue.component('users-component', require('./components/UsersComponent.vue').default);
+
+Vue.component('login-component', require('./vue/Auth/login.vue').default);
+Vue.component('register-component', require('./vue/Auth/register.vue').default);
+Vue.component('unauthorize-component', require('./vue/Auth/unauthorize.vue').default);
 
 Vue.prototype.$user = document.querySelector("meta[name='user']").getAttribute('content');
 
@@ -40,7 +44,7 @@ Vue.router = router
 Vue.use(VueRouter)
 
 Vue.use(VueAxios, axios)
-axios.defaults.baseURL = `${process.env.MIX_APP_URL}`
+axios.defaults.baseURL = `/`
 
 
 

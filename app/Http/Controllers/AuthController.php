@@ -7,6 +7,7 @@ use Auth;
 use Validator;
 use App\Models\User;
 use App\Models\Oauth_access_token;
+use App\Models\ActivationCode;
 
 class AuthController extends Controller
 {
@@ -32,6 +33,9 @@ class AuthController extends Controller
         $user->email = $request->email;
         $user->password = bcrypt($request->password);
         $user->save();
+        //$acode = new ActivationCode();
+        //$acode->email = $user->email;
+        //$acode->code = 
         return response()->json(['status' => 'success'], 200);
     }
 

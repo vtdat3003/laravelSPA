@@ -66,7 +66,7 @@
         // let headers = {
         //   'Content-Type': 'application/json;charset=utf-8'
         // };
-        axios.post('api/auth/login', {
+        axios.post('/api/auth/login', {
             email: this.email,
             password: this.password
         })

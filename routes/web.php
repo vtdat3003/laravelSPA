@@ -16,21 +16,31 @@ Route::get('home', function(){
     return view('home');
 })->name('home');
 
-Route::group(['middleware' => ['auth']], function () { 
-    Route::get('/', function () {
-        return view('welcome');
-    });
+Route::get('unauthorize', function(){
+    return view('unauthorize');
 });
 
-Route::group(['middleware' => ['auth', 'admin']], function () {   
-    Route::get('/users', function () {
-        return view('users');
+Route::group(['middleware' => 'active'], function(){
+    Route::group(['middleware' => ['auth']], function () { 
+        Route::get('/', function () {
+            return view('welcome');
+        });
     });
+    
+    Route::group(['middleware' => ['auth', 'admin']], function () {   
+        Route::get('/users', function () {
+            return view('users');
+        });
+    });
+    
 });
 
 Route::group(['middleware' => ['guest']], function () { 
     Route::get('/login', function () {
         return view('login');
+    });
+    Route::get('/register', function () {
+        return view('register');
     });
 });
 
