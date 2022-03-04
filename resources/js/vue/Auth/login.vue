@@ -6,7 +6,7 @@
           <div class="card-header">Login</div>
           <div class="card-body">
             <div class="alert alert-danger" v-if="error !== '' ">
-              Wrong username or password
+              {{error}}
             </div>
             <form autocomplete="off" @submit.prevent="login" method="post">
               <div class="form-group">
@@ -33,7 +33,8 @@
         password: null,
         success: false,
         has_error: false,
-        error: ''
+        error: '',
+        responseBody: ''
       }
     },
     mounted() {
@@ -77,13 +78,13 @@
                 d.setTime(d.getTime() + (48*60*60*1000));
                 let expires = "expires="+ d.toUTCString();
                 document.cookie = "authorize=" + response.headers.authorization + ";" + expires;
-                window.location.href = "/";
+                window.location.href = "/todos";
             }
         })
         .catch(error => {
             this.error = error;
         })
       }
-    }
+    },
   }
 </script>

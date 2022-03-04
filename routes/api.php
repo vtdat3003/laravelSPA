@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TodoController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\NotiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -48,6 +49,9 @@ Route::group(['middleware' => 'active'], function(){
         Route::put('todo/{id}', [TodoController::class, 'update']);
         Route::put('todo/done/{id}', [TodoController::class, 'done']);
         Route::delete('todo/{id}', [TodoController::class, 'destroy']);
+
+        Route::get('notis', [NotiController::class, 'index']);
+        Route::delete('noti/{id}', [NotiController::class, 'destroy']);
     });
     //Route::get('todos', [TodoController::class, 'index']);
     //Route::get('users', [UserController::class, 'index']);
@@ -57,5 +61,8 @@ Route::group(['middleware' => 'active'], function(){
         Route::post('getRole', [UserController::class, 'getRole']);
         Route::post('user/{id}', [UserController::class, 'update']);
         Route::delete('user/{id}', [UserController::class, 'destroy']);
+
+        Route::post('noti/store', [NotiController::class, 'store']);
     });
 });
+//Route::delete('noti/{id}', [NotiController::class, 'destroy']);

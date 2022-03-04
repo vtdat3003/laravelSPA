@@ -2,7 +2,7 @@
     <div class="row">
         <form @submit="updateTodo">
             <div class="input-group">
-                <input type="text" class="form-control width100" v-model="todo.content" placeholder="Update todo" />
+                <input type="text" class="form-control width100" v-model="todo.content" placeholder="Update todo" required />
                 <span class="input-group-btn">
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </span>

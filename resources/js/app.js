@@ -16,6 +16,7 @@ import VueRouter from 'vue-router'
 import ExampleComonent from './components/ExampleComponent.vue'
 import authentication from '../authentication'
 import router from '../router.js'
+import store from './store';
 
 window.Vue = require('vue').default;
 
@@ -34,6 +35,8 @@ Vue.component('example-component', require('./components/ExampleComponent.vue').
 
 Vue.component('users-component', require('./components/UsersComponent.vue').default);
 
+Vue.component('notis-component', require('./components/NotisComponent.vue').default);
+
 Vue.component('login-component', require('./vue/Auth/login.vue').default);
 Vue.component('register-component', require('./vue/Auth/register.vue').default);
 Vue.component('unauthorize-component', require('./vue/Auth/unauthorize.vue').default);
@@ -46,7 +49,7 @@ Vue.use(VueRouter)
 Vue.use(VueAxios, axios)
 axios.defaults.baseURL = `/`
 
-
+Vue.config.productionTip = false
 
 Vue.use(VueAuth, authentication)
 
@@ -57,5 +60,6 @@ Vue.use(VueAuth, authentication)
  */
 
 const app = new Vue({
+    store,
     el: '#app',
 });

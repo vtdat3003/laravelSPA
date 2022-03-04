@@ -16,14 +16,17 @@ Route::get('home', function(){
     return view('home');
 })->name('home');
 
-Route::get('unauthorize', function(){
+Route::get('', function(){
     return view('unauthorize');
 });
 
 Route::group(['middleware' => 'active'], function(){
     Route::group(['middleware' => ['auth']], function () { 
-        Route::get('/', function () {
+        Route::get('/todos', function () {
             return view('welcome');
+        });
+        Route::get('/notis', function () {
+            return view('notis');
         });
     });
     

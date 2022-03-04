@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 
 use App\Models\User;
 use App\Models\Oauth_access_token;
+use Redirect;
 use Auth;
 
 class ActiveUser
@@ -33,9 +34,11 @@ class ActiveUser
                         return $next($request);
                     }
                 }
-                return redirect('/unauthorize');
+                unset($_COOKIE['authorize']);
+                return response()->view('unauthorize')->setStatusCode(401);
             }
         }
-        return $next($request);
+        //return $next($request);
+        return response()->view('unauthorize');
     }
 }
