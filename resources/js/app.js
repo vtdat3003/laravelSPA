@@ -16,7 +16,13 @@ import VueRouter from 'vue-router'
 import ExampleComonent from './components/ExampleComponent.vue'
 import authentication from '../authentication'
 import router from '../router.js'
-import store from './store';
+import store from './store'
+import vuetify from 'vuetify'
+import 'vuetify/dist/vuetify.min.css'
+import 'material-design-icons-iconfont/dist/material-design-icons.css'
+
+//vuetify icons
+import { mdiAccount } from "@mdi/js";
 
 window.Vue = require('vue').default;
 
@@ -47,6 +53,9 @@ Vue.router = router
 Vue.use(VueRouter)
 
 Vue.use(VueAxios, axios)
+
+Vue.use(vuetify); 
+
 axios.defaults.baseURL = `/`
 
 Vue.config.productionTip = false
@@ -62,4 +71,6 @@ Vue.use(VueAuth, authentication)
 const app = new Vue({
     store,
     el: '#app',
+    vuetify: new vuetify(),
 });
+

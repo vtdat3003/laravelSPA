@@ -1,15 +1,17 @@
 <template>
-    <div class="row">
-        <div class="card bg-light mt-3 p-3 col-md-12">
-            <form @submit="addItem">
-                <div class="input-group">
-                    <input type="text" class="form-control width100" v-model="todo.content" placeholder="Add a todo" />
-                    <span class="input-group-btn">
-                        <button type="submit" class="btn btn-primary">Submit</button>
-                    </span>
-                </div>
-            </form>           
-        </div>
+    <div>
+        <v-container class="my-2">
+            <v-form>
+                <v-row>
+                    <v-text-field
+                        v-model="todo.content"
+                        label="Add a todo"
+                        required
+                    ></v-text-field>
+                    <v-btn @click="addItem" class="mx-2" height="50px">Submit</v-btn>
+                </v-row>
+            </v-form>
+        </v-container>
     </div>
 </template>
 
@@ -35,6 +37,8 @@ export default{
                 if(response.status == 201)
                 {
                     this.todo.content = "";
+                    console.log('here');
+                    this.$emit('refresh');
                 }
             })
             .catch(error => {

@@ -1,13 +1,25 @@
 <template>
-    <div class="row">
-        <form @submit="updateTodo">
+    <div>
+        <!-- <form @submit="updateTodo">
             <div class="input-group">
                 <input type="text" class="form-control width100" v-model="todo.content" placeholder="Update todo" required />
                 <span class="input-group-btn">
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </span>
             </div>
-        </form>
+        </form> -->
+        <v-container>
+            <v-form>
+                <v-row height="30px">
+                    <v-text-field
+                        v-model="todo.content"
+                        label="Edit todo"
+                        required
+                    ></v-text-field>
+                    <v-btn @click="updateTodo" class="mx-2">Submit</v-btn>
+                </v-row>
+            </v-form>
+        </v-container>
     </div>
 </template>
 
@@ -33,6 +45,8 @@ export default{
                 changeStatus: false
             })
             .then(response => {
+                console.log("abc")
+                this.$emit('refresh');
                 if(response.status == 201)
                 {
                     this.todo.content = "";

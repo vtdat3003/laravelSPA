@@ -1,11 +1,13 @@
 <template>
-    <div>
-        <navbar />
-        <div class="container">
-            <addTodo />
-            <todos v-bind:todos="todos" v-on:refresh="getTodos"/>
-        </div>
-    </div>
+    <v-app>
+        <v-main class="yellow lighten-4">
+            <navbar />
+            <v-container>
+                <addTodo v-on:refresh="getTodos"/>
+                <todos v-bind:todos="todos" v-on:refresh="getTodos"/>
+            </v-container>
+        </v-main>
+    </v-app>
 </template>
 
 <script>

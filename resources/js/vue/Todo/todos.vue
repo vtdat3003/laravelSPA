@@ -1,8 +1,10 @@
 <template>
     <div>
-        <div v-for="(todo, index) in todos" :key="index">
+        <v-layout row wrap>
+        <v-flex xs12 sm12 md6 lg4 v-for="(todo, index) in todos" :key="index">
             <todo v-bind:todo="todo" v-on:refresh="$emit('refresh')"/>
-        </div>
+        </v-flex>
+        </v-layout>
     </div>
 </template>
 
